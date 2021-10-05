@@ -40,5 +40,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    pipeline.prepare_for_serving()
     app.run(debug=True)

@@ -59,6 +59,8 @@ class Pipeline:
             raise FileNotFoundError(f"Model File {model_file} does not exist.")
 
     def predict(self, inputs: List[List[float]]) -> List[int]:
+        if self.model is None:
+            self.load_model()
         return self.model.predict(inputs)
 
     def generate_prediction(self, input_file: str, output_file: str):
@@ -75,10 +77,6 @@ class Pipeline:
         df['predictions'] = predictions
         df.to_csv(output_file)
 
-    def prepare_for_serving(self):
-        self.load_model()
-        self.features_data = pd.read_csv(self.config['features_file']).fillna(0)
-
     def get_features(self, user_ids: List[int]) -> List[List[float]]:
         """Returns features for the given user ids
 
@@ -88,6 +86,8 @@ class Pipeline:
         Returns: List of features for each user id. Empty list for non existent users
 
         """
+        if self.features_data is None:
+            self.features_data = pd.read_csv(self.config['features_file']).fillna(0)
         df = self.features_data
         feature_cols = self.config['feature_cols']
         features_list = []
