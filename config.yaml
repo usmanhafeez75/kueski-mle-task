@@ -1,8 +1,9 @@
 raw_data_file: 'data/dataset_credit_risk.csv'
-train_data_file: 'data/train_data.csv'
+features_file: 'data/train_data.csv'
 use_pyspark: False # Whether to use pyspark or pandas for preprocessing, use pyspark only with very large dataset on a server machine otherwise pyspark may take longer than pandas for not very large datasets due to overhead
 force_preprocess: False # If True, will start preprocessing even if the 'train_data_file' already exists and overwrite it
 
+train_data_file: 'data/train_data.csv'
 feature_cols: ['age', 'years_on_the_job', 'nb_previous_loans', 'avg_amount_loans_previous', 'flag_own_car']
 label_col: 'status'
 model_file: 'model/model_risk.joblib' # model file path to save/load model

@@ -1,4 +1,5 @@
 # coding: utf8
+from typing import List
 from datetime import datetime
 
 from pyspark.sql import SparkSession
@@ -9,12 +10,13 @@ from ..utils import log_time
 
 
 @log_time
-def preprocess_data_pyspark(raw_data_file: str, train_data_file: str) -> None:
+def preprocess_data_pyspark(raw_data_file: str, features_file: str, cols_to_save: List[str]) -> None:
     """Loads data from raw_data_file, preprocess it and save it in processed_data_file
 
     Args:
         raw_data_file: File path of raw data
-        train_data_file: File path to save the processed data
+        features_file: File path to save the processed data
+        cols_to_save: List of columns to save in features file
     """
 
     spark = SparkSession.builder.getOrCreate()
@@ -75,6 +77,5 @@ def preprocess_data_pyspark(raw_data_file: str, train_data_file: str) -> None:
     spark_df = spark_df.withColumn('flag_own_car', flag_own_car_converter('flag_own_car'))
 
     df = spark_df.toPandas()
-    df = df[['id', 'age', 'years_on_the_job', 'nb_previous_loans', 'avg_amount_loans_previous', 'flag_own_car',
-             'status']]
-    df.to_csv(train_data_file, index=False)
+    df = df[cols_to_save]
+    df.to_csv(features_file, index=False)

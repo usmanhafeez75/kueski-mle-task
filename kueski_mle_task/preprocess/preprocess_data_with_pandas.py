@@ -1,16 +1,19 @@
 # coding: utf8
+from typing import List
+
 import pandas as pd
 
 from ..utils import log_time
 
 
 @log_time
-def preprocess_data_pandas(raw_data_file: str, train_data_file: str) -> None:
+def preprocess_data_pandas(raw_data_file: str, features_file: str, cols_to_save: List[str]) -> None:
     """Loads data from raw_data_file, preprocess it and save it in processed_data_file
 
     Args:
         raw_data_file: File path of raw data
-        train_data_file: File path to save the processed data
+        features_file: File path to save the processed data
+        cols_to_save: List of columns to save in features file
     """
 
     df = pd.read_csv(raw_data_file)
@@ -39,6 +42,5 @@ def preprocess_data_pandas(raw_data_file: str, train_data_file: str) -> None:
     # Feature flag_own_car
     df['flag_own_car'] = df.flag_own_car.apply(lambda x: 0 if x == 'N' else 1)
 
-    df = df[['id', 'age', 'years_on_the_job', 'nb_previous_loans', 'avg_amount_loans_previous', 'flag_own_car',
-             'status']]
-    df.to_csv(train_data_file, index=False)
+    df = df[cols_to_save]
+    df.to_csv(features_file, index=False)
