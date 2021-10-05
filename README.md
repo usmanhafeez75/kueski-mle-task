@@ -49,7 +49,10 @@ Running Image
 docker run -p 5000:5000 -v <config-folder-path>:/app/config -v <data-folder-path>:/app/data -v <model-folder-path>:/app/model <image-name>:tag <command>
 ```
 
-### 4. Hitting Endpoints
+### 4. Running with docker-compose.yml
+No need to setup environment or build image manually. Just run `docker-compose run task <desired-command>` to complete the desired task.
+
+### 5. Hitting Endpoints
 By running the `--serve-model` command either using python or Docker, the model will be become online for predictions as:
 ```
 >>> import requests
