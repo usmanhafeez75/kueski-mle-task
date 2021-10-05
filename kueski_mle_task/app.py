@@ -5,7 +5,6 @@ from kueski_mle_task.core.pipeline import Pipeline
 
 
 pipeline = Pipeline()
-pipeline.prepare_for_serving()
 app = Flask(__name__)
 
 
@@ -41,4 +40,5 @@ def predict():
 
 
 if __name__ == "__main__":
+    pipeline.prepare_for_serving()
     app.run(debug=True)
