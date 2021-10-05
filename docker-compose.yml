@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  kueski_mle_task:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+    - ./config/:/app/config/
+    - ./data/:/app/data/
+    - ./model/:/app/model/
