@@ -46,7 +46,25 @@ docker image build -t <image-name>:<tag> .
 ```
 Running Image
 ```
-docker run -v <config-folder-path>:/app/config -v <data-folder-path>:/app/data -v <model-folder-path>:/app/model <image-name>:tag <command>
+docker run -p 5000:5000 -v <config-folder-path>:/app/config -v <data-folder-path>:/app/data -v <model-folder-path>:/app/model <image-name>:tag <command>
 ```
 
-**Note**: Real world ML projects are deployed separately for inference and training.
+### 4. Hitting Endpoints
+By running the `--serve-model` command either using python or Docker, the model will be become online for predictions as:
+```
+>>> import requests
+
+>>> user_ids = [5009033, 5009034, 0]
+
+>>> url = 'http://0.0.0.0:5000/get_features'
+
+>>> requests.post(url, json=user_ids).json()
+{'0': [], '5009033': [51.0, 0.0, 16.0, 129.5547329260326, 0.0], '5009034': [51.0, 0.0, 17.0, 123.41509324149632, 0.0]}
+
+>>> url_predict = 'http://0.0.0.0:5000/predict'
+
+>>> requests.post(url_predict, json=user_ids).json()
+{'invalid_user_ids': [0], 'predictions': {'5009033': 0, '5009034': 0}}
+```
+
+**Note**: Real world ML projects are deployed separately for inference and training. Model for predictions are usually deployed on wsgi servers like gunicorn.
