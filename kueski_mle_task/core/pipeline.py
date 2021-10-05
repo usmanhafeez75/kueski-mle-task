@@ -12,7 +12,7 @@ from ..preprocess.preprocess_data_with_pyspark import preprocess_data_pyspark
 
 class Pipeline:
 
-    def __init__(self, config_file: str = 'config.yaml'):
+    def __init__(self, config_file: str = 'config/config.yaml'):
         self.config = read_yaml(config_file)
         self.model = None
         self.features_data = None
