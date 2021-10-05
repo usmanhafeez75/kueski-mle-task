@@ -47,16 +47,15 @@ def preprocess_data_pyspark(raw_data_file: str, train_data_file: str) -> None:
     spark_df = spark.read.csv(raw_data_file, header=True, schema=schema)
 
     spark_df = spark_df.sort(['id', 'loan_date'])
-    spark_df_grouped_by_id = spark_df.groupby("id")
 
     # Feature nb_previous_loans
     spark_df = spark_df.withColumn('nb_previous_loans', spark_df['status'])
-    spark_df = spark_df_grouped_by_id.applyInPandas(lambda group: group.assign(nb_previous_loans=range(len(group))),
+    spark_df = spark_df.groupby("id").applyInPandas(lambda group: group.assign(nb_previous_loans=range(len(group))),
                                                     schema=spark_df.schema)
 
     # Feature avg_amount_loans_previous
     spark_df = spark_df.withColumn('avg_amount_loans_previous', spark_df['loan_amount'])
-    spark_df = spark_df_grouped_by_id.applyInPandas(
+    spark_df = spark_df.groupby("id").applyInPandas(
         lambda group: group.assign(avg_amount_loans_previous=group['loan_amount'].expanding().mean()),
         schema=spark_df.schema)
 
@@ -75,5 +74,7 @@ def preprocess_data_pyspark(raw_data_file: str, train_data_file: str) -> None:
     flag_own_car_converter = F.udf(lambda x: 0 if x == 'N' else 1, IntegerType())
     spark_df = spark_df.withColumn('flag_own_car', flag_own_car_converter('flag_own_car'))
 
-    spark_df.collect()
-    spark_df.write.csv(train_data_file)
+    df = spark_df.toPandas()
+    df = df[['id', 'age', 'years_on_the_job', 'nb_previous_loans', 'avg_amount_loans_previous', 'flag_own_car',
+             'status']]
+    df.to_csv(train_data_file, index=False)
