@@ -26,7 +26,7 @@ def parse_cli_parameters():
 
 def main():
     cli_parameters = parse_cli_parameters()
-    pipeline = Pipeline('config.yaml')
+    pipeline = Pipeline()
     pipeline.start_pipeline(preprocess_data=cli_parameters.preprocess_data,
                             train_model=cli_parameters.train_model,
                             load_model=cli_parameters.load_model,

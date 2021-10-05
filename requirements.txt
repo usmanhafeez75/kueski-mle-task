@@ -1,6 +1,7 @@
 pyspark==3.1.2
 pandas==1.3.3
 ruamel.yaml==0.17.16
-pyarrowpyarrow==5.0.0
-imblearn
-sklearn
+pyarrow==5.0.0
+imbalanced-learn==0.8.1
+scikit-learn==1.0
+flask==2.0.2

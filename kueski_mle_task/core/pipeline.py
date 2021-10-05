@@ -12,7 +12,7 @@ from ..preprocess.preprocess_data_with_pyspark import preprocess_data_pyspark
 
 class Pipeline:
 
-    def __init__(self, config_file: str):
+    def __init__(self, config_file: str = 'config.yaml'):
         self.config = read_yaml(config_file)
         self.model = None
 
@@ -54,7 +54,7 @@ class Pipeline:
         except FileNotFoundError:
             raise FileNotFoundError(f"Model File {model_file} does not exist.")
 
-    def _predict(self, inputs: List[list]) -> List[int]:
+    def predict(self, inputs: List[list]) -> List[int]:
         return self.model.predict(inputs)
 
     def generate_prediction(self, input_file: str, output_file: str):
@@ -66,7 +66,7 @@ class Pipeline:
         df = pd.read_csv(input_file).dropna()
 
         features = df[feature_cols].values.tolist()
-        predictions = self._predict(features)
+        predictions = self.predict(features)
 
         df['predictions'] = predictions
         df.to_csv(output_file)
