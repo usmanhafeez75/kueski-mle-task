@@ -40,7 +40,7 @@ def main():
 
     del pipeline
     if cli_parameters.serve_model:
-        app.run()
+        app.run(debug=True)
 
 
 if __name__ == '__main__':
