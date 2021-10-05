@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY ["kueski_mle_task", "./kueski_mle_task"]
 
-COPY ["requirements.txt", "./"]
+COPY ["requirements.txt", "setup.py", "./"]
 
 RUN pip install .
 
