@@ -1,3 +1,11 @@
 raw_data_file: 'data/dataset_credit_risk.csv'
 train_data_file: 'data/train_data.csv'
 use_pyspark: False # Whether to use pyspark or pandas for preprocessing, use pyspark only with very large dataset on a server machine otherwise pyspark may take longer than pandas for not very large datasets due to overhead
+force_preprocess: False # If True, will start preprocessing even if the 'train_data_file' already exists and overwrite it
+
+feature_cols: ['age', 'years_on_the_job', 'nb_previous_loans', 'avg_amount_loans_previous', 'flag_own_car']
+label_col: 'status'
+model_file: 'model/model_risk.joblib' # model file path to save/load model
+test_size: 0.3 # Fraction of the data to use for testing
+random_state: 123 # Random state to pass for train_test_split. Set to None if don't want to use.
+force_train: False # If True, will train the model even if the 'model_file' already exists and overwrite it.
