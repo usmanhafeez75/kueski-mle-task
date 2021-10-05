@@ -1,5 +1,7 @@
 # coding: utf8
 import argparse
+
+from kueski_mle_task.app import app
 from kueski_mle_task.core.pipeline import Pipeline
 
 
@@ -15,6 +17,8 @@ def parse_cli_parameters():
                         action='store_true')
     parser.add_argument("--input-file", dest="input_file", help="input csv file with data to be predicted")
     parser.add_argument("--output-file", dest="output_file", help="output csv file with status prediction")
+    parser.add_argument('--serve-model', dest='serve_model', help='Serve Model', default=False,
+                        action='store_true')
 
     options = parser.parse_args()
 
@@ -33,6 +37,10 @@ def main():
                             generate_prediction=cli_parameters.generate_prediction,
                             input_file=cli_parameters.input_file,
                             output_file=cli_parameters.output_file)
+
+    del pipeline
+    if cli_parameters.serve_model:
+        app.run()
 
 
 if __name__ == '__main__':
